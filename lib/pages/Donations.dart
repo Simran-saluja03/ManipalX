@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Donations extends StatefulWidget {
   const Donations({Key? key}) : super(key: key);
@@ -21,15 +22,28 @@ class _DonationsState extends State<Donations> {
   final _imagePicker = ImagePicker();
   late PickedFile image;
   final FirebaseAuth auth = FirebaseAuth.instance;
-
+  late String product_name;
+  late String product_desc;
+  late String product_price;
   void updateLink(String uid, String downloadUrl) async {
+    Map<String, dynamic> product_details = {
+      "product_name": product_name,
+      "product_desc": product_desc,
+      "product_price": product_price,
+      "product_image": downloadUrl
+    };
     try {
       CollectionReference userdata =
           FirebaseFirestore.instance.collection('userdata');
 
       userdata.doc(uid).update({
-        'myDonations': FieldValue.arrayUnion([downloadUrl]),
+        'myProducts': FieldValue.arrayUnion([product_details]),
       });
+      print("uploaded ");
+      Fluttertoast.showToast(
+        msg: "Successfully Uploaded",
+        toastLength: Toast.LENGTH_SHORT,
+      );
     } catch (e) {
       print(e);
     }
@@ -37,6 +51,10 @@ class _DonationsState extends State<Donations> {
 
   uploadImage() async {
     //Check Permissions
+    Fluttertoast.showToast(
+      msg: "Uploading...",
+      toastLength: Toast.LENGTH_SHORT,
+    );
     await Permission.photos.request();
 
     var permissionStatus = await Permission.photos.status;
@@ -91,7 +109,8 @@ class _DonationsState extends State<Donations> {
       padding: EdgeInsets.all(24),
       child: Column(
         children: [
-          const TextField(
+          TextField(
+            onChanged: (value) => product_price = value,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Name',
@@ -101,26 +120,37 @@ class _DonationsState extends State<Donations> {
             height: 30,
           ),
           TextField(
-            keyboardType: TextInputType.number,
+            onChanged: (value) => product_desc = value,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Contact Number',
+              labelText: 'Description',
             ),
           ),
           SizedBox(
             height: 30,
           ),
           TextField(
+            onChanged: (value) => product_name = value,
+            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
-              labelText: 'Item Name',
+              labelText: 'Price',
             ),
           ),
           SizedBox(
             height: 30,
           ),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     border: OutlineInputBorder(),
+          //     labelText: 'Item Name',
+          //   ),
+          // ),
+          SizedBox(
+            height: 30,
+          ),
           ElevatedButton(
-              child: new Text('Select Image from Gallery'),
+              child: new Text('Import And Upload'),
               onPressed: () {
                 uploadImage();
               }),

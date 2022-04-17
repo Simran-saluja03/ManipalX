@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     return DefaultTabController(
+      initialIndex: 1,
       length: 3,
       child: Scaffold(
         drawer: Theme(
