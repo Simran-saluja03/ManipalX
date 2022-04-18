@@ -80,8 +80,21 @@ class _DonationsState extends State<Donations> {
           var downloadUrl = await snapshot.ref.getDownloadURL();
           final User? user = await auth.currentUser;
           final uid = user?.uid;
+          print('here ${uid}');
+          await FirebaseFirestore.instance
+              .collection('userdata')
+              .doc(uid)
+              .get()
+              .then((DocumentSnapshot documentSnapshot) {
+            if (documentSnapshot.exists) {
+              print("dff");
+              print(documentSnapshot.data()!);
+            } else {
+              print('Document does not exist on the database');
+            }
+          });
           updateLink(uid!, downloadUrl);
-          print(downloadUrl);
+          //print(downloadUrl);
         } catch (e) {
           print(e);
         }

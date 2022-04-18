@@ -21,52 +21,62 @@ class _NGOsState extends State<NGOs> {
 
         return ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const ListTile(
-                    leading: Icon(Icons.settings, color: Colors.pink),
-                    title: Text('Rotaract Club'),
-                    subtitle: Text('No work beneath us, no task beyond'),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () async {
-                          if (await canLaunch("mail")) {
-                            await launch("mail");
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          width: 25,
-                          child: Icon(
-                            Icons.open_in_new,
-                            color: Colors.red,
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      leading: Container(
+                        width: 75.0,
+                        height: 75.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  newData![index]["img"].toString()),
+                              fit: BoxFit.contain),
+                          borderRadius: BorderRadius.all(Radius.circular(75.0)),
+                        ),
+                      ),
+                      title: Text(newData![index]["name"].toString()),
+                      subtitle: Text(newData![index]["desc"].toString()),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () async {
+                            await launch(newData![index]["web"].toString());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            width: 25,
+                            child: Icon(
+                              Icons.open_in_new,
+                              color: Colors.red,
+                            ),
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () async {
-                          if (await canLaunch("mail")) {
-                            await launch("mail");
-                          }
-                        },
-                        child: Container(
-                          margin: EdgeInsets.symmetric(horizontal: 10),
-                          width: 25,
-                          child: Image.asset("lib/assets/ig.png"),
+                        GestureDetector(
+                          onTap: () async {
+                            await launch(newData![index]["ig"].toString());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            width: 25,
+                            child: Image.asset("lib/assets/ig.png"),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 15,
-                  )
-                ],
+                        const SizedBox(width: 8),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 15,
+                    )
+                  ],
+                ),
               ),
             );
           },

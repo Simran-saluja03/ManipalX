@@ -22,9 +22,7 @@ class DevDetails extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () async {
-                  if (await canLaunch(linked)) {
-                    await launch(linked);
-                  }
+                  await launch(linked);
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
@@ -34,9 +32,7 @@ class DevDetails extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (await canLaunch(mail)) {
-                    await launch(mail);
-                  }
+                  await launch(mail);
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
@@ -46,9 +42,7 @@ class DevDetails extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  if (await canLaunch(ig)) {
-                    await launch(ig);
-                  }
+                  await launch(ig);
                 },
                 child: Container(
                   margin: EdgeInsets.symmetric(horizontal: 10),
