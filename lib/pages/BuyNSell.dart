@@ -27,9 +27,9 @@ class BuyNSell extends StatefulWidget {
 
 class _BuyNSellState extends State<BuyNSell> {
   late List data;
-  List<ProductDetails> userSearchItems = [];
+  List<dynamic> userSearchItems = [];
 
-  Future<ProductDetails> getdata() async {
+  Future<List> getdata() async {
     // var res;
     // res = await http.get("https://fakestoreapi.com/products");
 
@@ -56,7 +56,7 @@ class _BuyNSellState extends State<BuyNSell> {
         //     isPopular: true));
       });
     });
-    print(userSearchItems);
+    print(userSearchItems[0]["product_desc"]);
     // CollectionReference _collectionRef =
     //     FirebaseFirestore.instance.collection('userdata');
     // QuerySnapshot querySnapshot = await _collectionRef.get();
@@ -75,13 +75,13 @@ class _BuyNSellState extends State<BuyNSell> {
     // }
     // print(allData[0]);
     //data.addAll(json.decode(allData));
-    // var url = Uri.parse('https://fakestoreapi.com/products');
-    // var response = await http.get(url);
-    // //print('Response status: ${response.statusCode}');
-    // //print('Response body: ${response.body}');
-    // var resBody = json.decode(response.body);
+    var url = Uri.parse('https://fakestoreapi.com/products');
+    var response = await http.get(url);
+    //print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+    var resBody = json.decode(response.body);
 
-    return data = resBody;
+    return data = userSearchItems;
   }
 
   @override
@@ -103,58 +103,61 @@ class _BuyNSellState extends State<BuyNSell> {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 20),
-                //   child: ListView.builder(
-                //       physics: NeverScrollableScrollPhysics(),
-                //       shrinkWrap: true,
-                //       itemCount: snapshot.data!.length,
-                //       itemBuilder: (context, i) {
-                //         return Container(
-                //           margin: EdgeInsets.only(bottom: 30),
-                //           decoration: BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.only(
-                //                 topLeft: Radius.circular(10),
-                //                 topRight: Radius.circular(10),
-                //                 bottomLeft: Radius.circular(10),
-                //                 bottomRight: Radius.circular(10)),
-                //             boxShadow: [
-                //               BoxShadow(
-                //                 color: Colors.grey.withOpacity(0.5),
-                //                 spreadRadius: 5,
-                //                 blurRadius: 7,
-                //                 offset:
-                //                     Offset(0, 3), // changes position of shadow
-                //               ),
-                //             ],
-                //           ),
-                //           child: ListTile(
-                //             contentPadding: EdgeInsets.all(20),
-                //             leading: Container(
-                //               width: 75.0,
-                //               height: 75.0,
-                //               decoration: BoxDecoration(
-                //                 image: DecorationImage(
-                //                     image: NetworkImage(
-                //                         snapshot.data![i]["image"]),
-                //                     fit: BoxFit.contain),
-                //                 borderRadius:
-                //                     BorderRadius.all(Radius.circular(75.0)),
-                //               ),
-                //             ),
-                //             title: Text(snapshot.data![i]["title"]),
-                //             subtitle: Text(
-                //                 "Rs. " + snapshot.data![i]["price"].toString()),
-                //             trailing: Icon(
-                //               Icons.open_in_new,
-                //               color: Colors.red,
-                //             ),
-                //             isThreeLine: true,
-                //           ),
-                //         );
-                //       }),
-                // ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        print(snapshot.data!);
+                        return Container(
+                          margin: EdgeInsets.only(bottom: 30),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.all(20),
+                            leading: Container(
+                              width: 75.0,
+                              height: 75.0,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(snapshot.data![i]
+                                            ["product_image"]
+                                        .toString()),
+                                    fit: BoxFit.contain),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(75.0)),
+                              ),
+                            ),
+                            title: Text(
+                                snapshot.data![i]["product_name"].toString()),
+                            subtitle: Text("Rs. " +
+                                snapshot.data![i]["product_price"].toString()),
+                            trailing: Icon(
+                              Icons.open_in_new,
+                              color: Colors.red,
+                            ),
+                            isThreeLine: true,
+                          ),
+                        );
+                      }),
+                ),
               ];
             } else if (snapshot.hasError) {
               children = <Widget>[

@@ -44,6 +44,11 @@ class _DonationsState extends State<Donations> {
         msg: "Successfully Uploaded",
         toastLength: Toast.LENGTH_SHORT,
       );
+      setState(() {
+        product_name = "";
+        product_desc = "";
+        product_price = "";
+      });
     } catch (e) {
       print(e);
     }
@@ -110,7 +115,7 @@ class _DonationsState extends State<Donations> {
       child: Column(
         children: [
           TextField(
-            onChanged: (value) => product_price = value,
+            onChanged: (value) => product_name = value,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Name',
@@ -130,7 +135,7 @@ class _DonationsState extends State<Donations> {
             height: 30,
           ),
           TextField(
-            onChanged: (value) => product_name = value,
+            onChanged: (value) => product_price = value,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
